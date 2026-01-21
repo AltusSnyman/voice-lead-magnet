@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# Voice Lead Magnet for Netlify 🎙️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A "Siri-like" Voice AI Agent generator that runs entirely in the browser using React, Vite, and Google's Gemini Live API (WebSockets).
 
-Currently, two official plugins are available:
+**Demo Features:**
+- ⚡ **Zero Backend**: Runs 100% on the client-side (deployable to Netlify).
+- 🧠 **Dynamic Persona**: Takes user input (business name, services, etc.) and creates a custom AI receptionist.
+- 🗣️ **Real-time Voice**: Uses Gemini Live 2.0 Flash for low-latency voice conversations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Setup & Installation
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the repo
+```bash
+git clone https://github.com/AltusSnyman/voice-lead-magnet.git
+cd voice-lead-magnet
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configure API Key 🔑
+You must provide a valid Gemini API Key for the app to connect.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Option A: Local Development**
+Create a `.env` file in the root directory:
+```bash
+VITE_GEMINI_API_KEY=AIzaSy...YourKeyHere
 ```
+
+**Option B: Netlify Deployment**
+In your Netlify Dashboard:
+1.  Go to **Site Settings** > **Environment variables**.
+2.  Add a new variable:
+    -   Key: `VITE_GEMINI_API_KEY`
+    -   Value: `AIzaSy...`
+
+### 3. Run Locally
+```bash
+npm run dev
+```
+
+### 4. Build for Production
+```bash
+npm run build
+# The 'dist' folder is ready for deployment
+```
+
+## ⚠️ Important Note
+This application uses the API Key **directly in the browser** (Client-Side).
+-   **For Demos**: This is fine.
+-   **For Production**: You should ideally proxy the WebSocket connection through a backend to keep your API Key secret. However, for a "Lead Magnet" or simple demo running on Netlify, this client-side approach prevents the need for complex server infrastructure.
+
+## Project Structure
+-   `src/pages/Onboarding.tsx`: The form that captures business details.
+-   `src/pages/Agent.tsx`: The voice agent interface.
+-   `src/lib/gemini-live.ts`: WebSocket client logic for Gemini.
+-   `src/store/useBusinessStore.ts`: LocalStorage persistence for "Sticky Sessions".

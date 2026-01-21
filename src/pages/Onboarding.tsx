@@ -6,8 +6,8 @@ import { useState } from 'react';
 export const Onboarding = () => {
     const navigate = useNavigate();
     const { profile, setProfile } = useBusinessStore();
-    // NOTE: API Key must be entered by the user.
-    const [apiKey] = useState('');
+    // NOTE: API Key should be set in .env file as VITE_GEMINI_API_KEY
+    const [apiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY || '');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
